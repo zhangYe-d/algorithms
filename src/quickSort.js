@@ -25,4 +25,26 @@ const partition = (sourceArr, p, r) => {
 	return i
 }
 
-// console.log(quickSort([6, 4, 9, 1, 0], 0, 4))
+const randomQuickSort = (sourceArr, p, r) => {
+	if (p < r) {
+		const q = randomPartition(sourceArr, p, r)
+
+		randomQuickSort(sourceArr, p, q - 1)
+		randomQuickSort(sourceArr, q + 1, r)
+	}
+
+	return sourceArr
+}
+
+const randomPartition = (sourceArr, p, r) => {
+	const i = getRandomInt(p, r)
+	;[sourceArr[i], sourceArr[r]] = [sourceArr[r], sourceArr[i]]
+
+	return partition(sourceArr, p, r)
+}
+
+const getRandomInt = (max, min) => {
+	return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+// console.log(randomQuickSort([6, 4, 9, 1, 0, 11, 2, 3, 12, 20, 5, 7], 0, 11))
