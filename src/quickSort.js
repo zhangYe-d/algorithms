@@ -1,4 +1,6 @@
 const quickSort = (sourceArr, p, r) => {
+	if (!Array.isArray(sourceArr)) return
+
 	if (p < r) {
 		const q = partition(sourceArr, p, r)
 
@@ -26,6 +28,8 @@ const partition = (sourceArr, p, r) => {
 }
 
 const randomQuickSort = (sourceArr, p, r) => {
+	if (!Array.isArray(sourceArr)) return
+
 	if (p < r) {
 		const q = randomPartition(sourceArr, p, r)
 
