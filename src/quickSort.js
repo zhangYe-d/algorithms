@@ -51,4 +51,4 @@ const getRandomInt = (max, min) => {
 	return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-// console.log(randomQuickSort([6, 4, 9, 1, 0, 11, 2, 3, 12, 20, 5, 7], 0, 11))
+console.log(randomQuickSort([6, 4, 9, 1, 0], 0, 2))
