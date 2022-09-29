@@ -8,6 +8,10 @@ export default class LinkedList {
 		let currNode = this.head
 
 		while (currNode) {
+			if (typeof value === 'function' && value(currNode.value)) {
+				return currNode
+			}
+
 			if (currNode.value === value) return currNode
 			currNode = currNode.next
 		}
@@ -57,9 +61,10 @@ export default class LinkedList {
 	}
 }
 
-// const L = new LinkedList()
+const L = new LinkedList()
 
-// L.insert('哈哈')
+L.insert('哈哈')
+console.log(L.find(value => value === '哈哈'))
 // L.insert('呵呵')
 // console.log(L)
 // L.delete('哈哈')

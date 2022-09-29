@@ -20,14 +20,29 @@ export default class HashTable {
 	set(key, value) {
 		const index = this.hash(key)
 		const LinL = this.buckets[index]
-		const node = LinL.find(value)
+		const node = LinL.find(nodeValue => nodeValue.key === key)
 
 		if (node) {
-			node.value = value
+			node.value = { key, value }
 		} else {
-			LinL.insert(value)
+			LinL.insert({ key, value })
 		}
 	}
 
-	get(key) {}
+	get(key) {
+		const node = this.buckets[this.hash(key)].find(
+			nodeValue => nodeValue.key === key
+		)
+
+		return node ? node.value.value : null
+	}
+
+	delete(key) {
+		const LinL = this.buckets[this.hash(key)]
+		const node = LinL.find(nodeValue => nodeValue.key === key)
+
+		if (node) {
+			return LinL.delete(node.value)
+		}
+	}
 }
