@@ -5,7 +5,7 @@ export default class BinarySearchTree {
 	insert(value) {
 		let parentNode = null
 		let curNode = this.root
-		let insertNode = { value, left: null, rigth: null }
+		let insertNode = { value, left: null, right: null }
 
 		while (curNode !== null) {
 			parentNode = curNode
@@ -20,6 +20,7 @@ export default class BinarySearchTree {
 
 		if (parentNode === null) {
 			this.root = insertNode
+			return
 		}
 
 		if (value < parentNode.value) {
@@ -97,10 +98,36 @@ export default class BinarySearchTree {
 	}
 
 	delete(value) {
-		// const node = this.search(value)
-		// if (node) {
-		// 	if (node.left && node.right) {
-		// 	}
-		// }
+		const node = this.search(value)
+		if (node) {
+			if (!node.left) {
+				this.transplant(node, node.right)
+			} else if (!node.right) {
+				this.transplant(node, node.left)
+			} else {
+				const replaceNode = this.successor(node)
+				if (replaceNode !== node.right) {
+					this.transplant(replaceNode, replaceNode.right)
+					replaceNode.right = node.right
+					replaceNode.right.parent = replaceNode
+				}
+
+				this.transplant(node, replaceNode)
+				replaceNode.left = node.left
+				replaceNode.left.parent = replaceNode
+			}
+		}
 	}
 }
+
+const tree = new BinarySearchTree()
+// console.log(tree)
+tree.insert(6)
+// console.log(tree)
+tree.insert(4)
+// console.log(tree)
+tree.insert(2)
+// console.log(tree)
+tree.insert(5)
+tree.delete(4)
+console.log(tree)
