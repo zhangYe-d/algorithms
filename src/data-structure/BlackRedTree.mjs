@@ -34,6 +34,43 @@ export default class BlackRedTree {
 		this.insertFixup(insertNode)
 	}
 
+	max(node) {
+		let curNode = node
+		if (curNode) {
+			while (curNode.right) {
+				curNode = curNode.right
+			}
+		}
+
+		return curNode
+	}
+
+	min(node) {
+		let curNode = node
+		if (curNode) {
+			while (curNode.left) {
+				curNode = curNode.left
+			}
+		}
+
+		return curNode
+	}
+
+	successor(node) {
+		if (node.right) {
+			return this.min(node.right)
+		}
+
+		let curNode = node
+		let parentNode = node.parent
+		while (parentNode && parentNode.right === curNode) {
+			curNode = parentNode
+			parentNode = parentNode.parent
+		}
+
+		return parentNode
+	}
+
 	insertFixup(insertNode) {
 		let curNode = insertNode
 		while (curNode.parent.color === RED) {
