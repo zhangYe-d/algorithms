@@ -37,7 +37,7 @@ export default class BlackRedTree {
 	max(node) {
 		let curNode = node
 		if (curNode) {
-			while (curNode.right) {
+			while (curNode.right !== this.null) {
 				curNode = curNode.right
 			}
 		}
@@ -47,7 +47,7 @@ export default class BlackRedTree {
 
 	min(node) {
 		let curNode = node
-		if (curNode) {
+		if (curNode !== this.null) {
 			while (curNode.left) {
 				curNode = curNode.left
 			}
@@ -57,7 +57,7 @@ export default class BlackRedTree {
 	}
 
 	successor(node) {
-		if (node.right) {
+		if (node.right !== this.null) {
 			return this.min(node.right)
 		}
 
@@ -153,5 +153,89 @@ export default class BlackRedTree {
 		}
 
 		return null
+	}
+
+	transplant(node1, node2) {
+		if (node1.parent === this.null) {
+			this.root = node2
+		} else if (node1.parent.left === node1) {
+			node1.parent.left = node2
+		} else {
+			node1.parent.right = node2
+		}
+
+		if (node2 !== this.null) {
+			node2.parent = node1.parent
+		}
+	}
+
+	delete(value) {
+		const node = this.search(value)
+		let originColor
+		let replaceNode
+
+		if (node) {
+			originColor = node.color
+			if (node.left !== this.null) {
+				replaceNode = node.right
+				this.transplant(node, replaceNode)
+			} else if (node.right !== this.null) {
+				replaceNode = node.left
+				this.transplant(node, node.left)
+			} else {
+				replaceNode = this.successor(node.right)
+				this.transplant(node, replaceNode)
+				originColor = replaceNode.color
+
+				if (replaceNode !== node.right) {
+					this.transplant(replaceNode, replaceNode.right)
+					replaceNode.right = node.right
+					replaceNode.right.parent = replaceNode
+				}
+
+				replaceNode.left = node.left
+				replaceNode.left.parent = replaceNode
+			}
+		}
+
+		if (originColor === BLACK) {
+			this.deleteFixup(replaceNode)
+		}
+	}
+
+	deleteFixup(node) {
+		let curNode = node
+
+		while (curNode !== this.root && curNode.color === BLACK) {
+			if (curNode === curNode.parent.left) {
+				let siblingNode = curNode.parent.right
+				if (siblingNode.color === RED) {
+					siblingNode.color = BLACK
+					curNode.parent.color = RED
+					this.rotate(curNode.parent, 'left')
+					siblingNode = curNode.parent.right
+				}
+
+				if (
+					siblingNode.left.color === BLACK &&
+					siblingNode.right.color === BLACK
+				) {
+					siblingNode.color = RED
+					curNode = curNode.parent
+				} else if (siblingNode.right.color === BLACK) {
+					siblingNode.color = RED
+					siblingNode.left = BLACK
+					this.rotate(siblingNode, 'right')
+					siblingNode = curNode.parent.right
+				} else {
+					siblingNode.color = curNode.parent.color
+					curNode.parent.color = BLACK
+					siblingNode.right.color = BLACK
+					this.rotate(curNode.parent, 'left')
+					curNode = this.root
+				}
+			}
+		}
+		curNode.color = BLACK
 	}
 }
