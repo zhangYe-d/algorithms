@@ -234,6 +234,33 @@ export default class BlackRedTree {
 					this.rotate(curNode.parent, 'left')
 					curNode = this.root
 				}
+			} else {
+				let siblingNode = curNode.parent.left
+				if (siblingNode.color === RED) {
+					siblingNode.color = BLACK
+					curNode.parent.color = RED
+					this.rotate(curNode.parent, 'right')
+					siblingNode = curNode.parent.left
+				}
+
+				if (
+					siblingNode.left.color === BLACK &&
+					siblingNode.right.color === BLACK
+				) {
+					siblingNode.color = RED
+					curNode = curNode.parent
+				} else if (siblingNode.left.color === BLACK) {
+					siblingNode.color = RED
+					siblingNode.right = BLACK
+					this.rotate(siblingNode, 'left')
+					siblingNode = curNode.parent.left
+				} else {
+					siblingNode.color = curNode.parent.color
+					curNode.parent.color = BLACK
+					siblingNode.left.color = BLACK
+					this.rotate(curNode.parent, 'right')
+					curNode = this.root
+				}
 			}
 		}
 		curNode.color = BLACK
