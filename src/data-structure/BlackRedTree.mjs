@@ -144,7 +144,7 @@ export default class BlackRedTree {
 	search(value) {
 		let curNode = this.root
 
-		while (curNode !== this.root) {
+		while (curNode !== this.null) {
 			if (value === curNode.value) {
 				return curNode
 			} else if (value < curNode.value) {
@@ -178,12 +178,12 @@ export default class BlackRedTree {
 
 		if (node) {
 			originColor = node.color
-			if (node.left !== this.null) {
+			if (node.left === this.null) {
 				replaceNode = node.right
 				this.transplant(node, replaceNode)
-			} else if (node.right !== this.null) {
+			} else if (node.right === this.null) {
 				replaceNode = node.left
-				this.transplant(node, node.left)
+				this.transplant(node, replaceNode)
 			} else {
 				replaceNode = this.successor(node.right)
 				this.transplant(node, replaceNode)
@@ -201,21 +201,26 @@ export default class BlackRedTree {
 		}
 
 		if (originColor === BLACK) {
-			this.deleteFixup(replaceNode)
+			const replaceParentNode =
+				replaceNode === this.null ? node.parent : replaceNode.parent
+			this.deleteFixup(replaceNode, replaceParentNode)
 		}
 	}
 
-	deleteFixup(node) {
+	deleteFixup(node, parentNode) {
 		let curNode = node
 
 		while (curNode !== this.root && curNode.color === BLACK) {
-			if (curNode === curNode.parent.left) {
-				let siblingNode = curNode.parent.right
+			// 如果node为叶节点，则parent属性取不到父节点
+			let curParentNode = curNode.parent || parentNode
+
+			if (curNode === curParentNode.left) {
+				let siblingNode = curParentNode.right
 				if (siblingNode.color === RED) {
 					siblingNode.color = BLACK
-					curNode.parent.color = RED
-					this.rotate(curNode.parent, 'left')
-					siblingNode = curNode.parent.right
+					curParentNode.color = RED
+					this.rotate(curParentNode, 'left')
+					siblingNode = curParentNode.right
 				}
 
 				if (
@@ -223,26 +228,26 @@ export default class BlackRedTree {
 					siblingNode.right.color === BLACK
 				) {
 					siblingNode.color = RED
-					curNode = curNode.parent
+					curNode = curParentNode
 				} else if (siblingNode.right.color === BLACK) {
 					siblingNode.color = RED
 					siblingNode.left = BLACK
 					this.rotate(siblingNode, 'right')
-					siblingNode = curNode.parent.right
+					siblingNode = curParentNode.right
 				} else {
-					siblingNode.color = curNode.parent.color
-					curNode.parent.color = BLACK
+					siblingNode.color = curParentNode.color
+					curParentNode.color = BLACK
 					siblingNode.right.color = BLACK
-					this.rotate(curNode.parent, 'left')
+					this.rotate(curParentNode, 'left')
 					curNode = this.root
 				}
 			} else {
-				let siblingNode = curNode.parent.left
+				let siblingNode = curParentNode.left
 				if (siblingNode.color === RED) {
 					siblingNode.color = BLACK
-					curNode.parent.color = RED
-					this.rotate(curNode.parent, 'right')
-					siblingNode = curNode.parent.left
+					curParentNode.color = RED
+					this.rotate(curParentNode, 'right')
+					siblingNode = curParentNode.left
 				}
 
 				if (
@@ -273,12 +278,12 @@ const tree = new BlackRedTree()
 ;[41, 38, 31, 12, 19, 8].forEach(item => {
 	tree.insert(item)
 })
-// console.log(tree)
+// console.log(tree.root.left.left)
 
 // ;[41, 38, 31].forEach(item => {
 // 	tree.insert(item)
 // 	console.log(tree)
 // })
 // console.log(tree)
-;[(8, 12, 19, 31, 38, 41)].forEach(item => tree.delete(item))
+;[8, 12, 19, 31, 38, 41].forEach(item => tree.delete(item))
 console.log(tree)
