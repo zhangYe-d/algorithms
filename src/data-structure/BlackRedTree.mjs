@@ -23,7 +23,7 @@ export default class BlackRedTree {
 
 		insertNode.parent = parentNode
 
-		if ((parentNode = this.null)) {
+		if (parentNode === this.null) {
 			this.root = insertNode
 		} else if (value < parentNode.value) {
 			parentNode.left = insertNode
@@ -126,6 +126,8 @@ export default class BlackRedTree {
 		if (parentNode[side] !== this.null) {
 			parentNode[side].parent = node
 		}
+
+		parentNode.parent = node.parent
 
 		if (node.parent === this.null) {
 			this.root = parentNode
@@ -266,3 +268,17 @@ export default class BlackRedTree {
 		curNode.color = BLACK
 	}
 }
+
+const tree = new BlackRedTree()
+;[41, 38, 31, 12, 19, 8].forEach(item => {
+	tree.insert(item)
+})
+// console.log(tree)
+
+// ;[41, 38, 31].forEach(item => {
+// 	tree.insert(item)
+// 	console.log(tree)
+// })
+// console.log(tree)
+;[(8, 12, 19, 31, 38, 41)].forEach(item => tree.delete(item))
+console.log(tree)
