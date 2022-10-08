@@ -1,2 +1,2 @@
 # algorithms
-implemenation of some basic algorithms by javascript
+implemenation of some basic algorithms in javascript
