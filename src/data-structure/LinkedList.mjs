@@ -59,12 +59,43 @@ export default class LinkedList {
 
 		return node
 	}
+
+	deleteHead() {
+		let head = this.head
+
+		if (this.head === this.tail) {
+			this.head = this.tail = null
+		} else {
+			this.head = head.next
+			this.head.prev = null
+		}
+
+		return head
+	}
+
+	deleteTail() {
+		let tail = this.tail
+
+		if (this.head === this.tail) {
+			this.head = this.tail = null
+		} else {
+			this.tail = this.tail.prev
+			this.tail.next = null
+		}
+
+		return tail
+	}
 }
 
 const L = new LinkedList()
 
 L.insert('哈哈')
-console.log(L.find(value => value === '哈哈'))
+L.insert('呵呵')
+// console.log(L.find(value => value === '哈哈'))
+console.log(L)
+L.deleteHead()
+console.log(L)
+
 // L.insert('呵呵')
 // console.log(L)
 // L.delete('哈哈')
