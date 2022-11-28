@@ -1,5 +1,5 @@
 export default class MaxHeap {
-	constructor(sourceArray) {
+	constructor(sourceArray = []) {
 		this.array = sourceArray
 		this.buildMinHeap(sourceArray)
 	}
