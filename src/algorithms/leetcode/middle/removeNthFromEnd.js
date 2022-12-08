@@ -1,11 +1,11 @@
-/**删除链表倒数第N个节点
+/**
  * Definition for singly-linked list.
  * function ListNode(val, next) {
  *     this.val = (val===undefined ? 0 : val)
  *     this.next = (next===undefined ? null : next)
  * }
  */
-/**
+/**删除链表倒数第N个节点
  * @param {ListNode} head
  * @param {number} n
  * @return {ListNode}
