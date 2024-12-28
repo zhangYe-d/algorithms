@@ -6,7 +6,7 @@ function productExceptSelf(nums: number[]): number[] {
   const anwsers: number[] = [1];
 
   for (let i: number = 1; i < length; i++) {
-    anwsers[i] = anwsers[i - 1] * nums[i];
+    anwsers[i] = anwsers[i - 1] * nums[i - 1];
   }
 
   let R: number = 1;
