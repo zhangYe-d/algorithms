@@ -1,5 +1,25 @@
 {
+  "name": "algorithms",
+  "version": "0.0.1",
+  "description": "implemenation of some basic algorithms in javascript or typescript",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhangYe-d/algorithms.git"
+  },
+  "keywords": [
+    "algorithms"
+  ],
+  "author": "zhanYe-D",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zhangYe-d/algorithms/issues"
+  },
+  "homepage": "https://github.com/zhangYe-d/algorithms#readme",
   "dependencies": {
-    "ts-node": "^10.9.2"
+    "tsx": "^4.19.2"
   }
 }
