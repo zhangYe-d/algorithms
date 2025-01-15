@@ -1,6 +1,6 @@
 /**
- * // Definition for a Node.
- * function Node(val, next, random) {
+ * // Definition for a _Node.
+ * function _Node(val, next, random) {
  *    this.val = val;
  *    this.next = next;
  *    this.random = random;
@@ -8,22 +8,18 @@
  */
 
 /**
- * @param {Node} head
- * @return {Node}
+ * @param {_Node} head
+ * @return {_Node}
  */
-var copyRandomList = function (head, cachedNode = new Map()) {
-	if (head === null) {
-		return null
-	}
+var copyRandomList = function (head, memoizedNode = new Map()) {
+  if (head === null) return null;
+  if (!memoizedNode.has(head)) {
+    memoizedNode.set(head, { val: head.val });
+    Object.assign(memoizedNode.get(head), {
+      next: copyRandomList(head.next, memoizedNode),
+      random: copyRandomList(head.random, memoizedNode),
+    });
+  }
 
-	if (!cachedNode.get(head)) {
-		cachedNode.set(head, { val: head.val })
-
-		Object.assign(cachedNode.get(head), {
-			next: copyRandomList(head.next, cachedNode),
-			random: copyRandomList(head.random, cachedNode),
-		})
-	}
-
-	return cachedNode.get(head)
-}
+  return memoizedNode.get(head);
+};
