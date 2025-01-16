@@ -5,28 +5,24 @@
  *     this.next = (next===undefined ? null : next)
  * }
  */
-/**删除链表倒数第N个节点
+/**
  * @param {ListNode} head
  * @param {number} n
  * @return {ListNode}
  */
 var removeNthFromEnd = function (head, n) {
-	let nulNode = new ListNode(null)
-	nulNode.next = head
-	let first = nulNode,
-		second = nulNode
+  const arr = [];
+  const pre = new ListNode(-1);
+  pre.next = head;
 
-	let size = 0
+  let current = pre;
+  while (current) {
+    arr.push(current);
+    current = current.next;
+  }
 
-	while (first !== null) {
-		if (size > n) {
-			second = second.next
-		}
-		first = first.next
-		size++
-	}
+  const before = arr[arr.length - n - 1];
+  before.next = before.next.next;
 
-	second.next = second.next.next
-
-	return nulNode.next
-}
+  return pre.next;
+};
