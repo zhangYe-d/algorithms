@@ -1,22 +1,14 @@
-function isPalindrome(s: string): boolean {
-  let i = 0,
-    j = s.length - 1;
-
-  while (i < j) {
-    const strI = s[i];
-    const strJ = s[j];
-    if (!/[a-zA-Z0-9]/.test(strI) || !/[a-zA-Z0-9]/.test(strJ)) {
-      !/[a-zA-Z0-9]/.test(strI) && i++;
-      !/[a-zA-Z0-9]/.test(strJ) && j--;
-      continue;
-    }
-
-    if (strI.toLowerCase() !== strJ.toLowerCase()) {
+function isPalindrome(x: number): boolean {
+  const xstr = x.toString();
+  if (xstr[0] === "-") return false;
+  const length = xstr.length;
+  let i = 0;
+  while (i < length - i - 1) {
+    if (xstr[i] !== xstr[length - i - 1]) {
       return false;
     }
-
     i++;
-    j--;
   }
+
   return true;
 }
