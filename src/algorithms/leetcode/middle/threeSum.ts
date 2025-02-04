@@ -18,6 +18,10 @@ function threeSum(nums: number[]): number[][] {
           j++;
         }
         second = nums[j];
+        while (nums[k] === third) {
+          k--;
+        }
+        third = nums[k];
       } else if (sum > 0) {
         while (nums[k] === third) {
           k--;
